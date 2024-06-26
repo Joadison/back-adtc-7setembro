@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs').promises;
 const { addTextToImage } = require('../utils/gerarStory');
 
 router.get('/generateImage', async (req, res) => {
