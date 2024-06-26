@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios'); 
 
 const token = '7494109745:AAFXplcuuM2vUPoOv08Zlrny0fMXBTy2qt8';
-const imageUrl = 'https://adtc-7-setembro.vercel.app/generateImageA';
+const imageUrl = 'https://back-adtc-7setembro.onrender.com/generateImageA';
 const bot = new TelegramBot(token, { polling: true });
 
 function initializeBot() {
