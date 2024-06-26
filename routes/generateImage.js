@@ -9,7 +9,12 @@ router.get('/generateImage', async (req, res) => {
 
     try {
         const imagePath = await addTextToImage(book, chapter, verse, inputImagePath, outputImagePath);
-        res.json({ path: imagePath });
+        const imageBuffer = await fs.readFile(outputImagePath);
+        res.writeHead(200, {
+            'Content-Type': 'image/png',
+            'Content-Length': imageBuffer.length
+        });
+        res.end(imageBuffer);
     } catch (error) {
         console.error('Erro ao gerar imagem:', error);
         res.status(500).json({ error: 'Erro ao gerar imagem' });

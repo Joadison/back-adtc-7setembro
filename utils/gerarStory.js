@@ -43,7 +43,8 @@ async function addTextToImage(book, chapter, verse, inputImagePath, outputImageP
 
         const buffer = canvas.toBuffer('image/png');
         fs.writeFileSync(outputImagePath, buffer);
-        return outputImagePath;
+        const imagem = outputImagePath.replace(/^\.\/public\//, 'https://adtc-7-setembro.vercel.app/');
+        return imagem;
     } catch (error) {
         console.error('Erro ao adicionar texto à imagem:', error);
     }
