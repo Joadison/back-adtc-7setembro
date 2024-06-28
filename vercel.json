@@ -7,6 +7,7 @@
     }
   ],
   "routes": [
-    { "src": "/", "dest": "app.js" }
+    { "src": "/generateimageA", "dest": "./routes/generateimageA.js"}
+    { "src": "/generateimage", "dest": "./routes/generateimage.js"}
   ]
 }
