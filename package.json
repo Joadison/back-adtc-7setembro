@@ -1,13 +1,13 @@
 {
   "name": "telegrama-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Sistema ADTC",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "JMS",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.14.2",
