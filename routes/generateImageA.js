@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require('fs').promises;
 const { addTextToImageA } = require('../utils/agerarStory');
 
-router.get('/generateImageA', async (req, res) => {
+router.get('/', async(req, res) => {
     const inputImagePath = `./public/image/5.png`;
     const outputImagePath = `./public/Story/A.png`;
     

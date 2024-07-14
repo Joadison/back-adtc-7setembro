@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const cors = require('cors');
 
 const generateImageRoutes = require('./routes/generateImage');
@@ -15,10 +14,16 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', generateImageRoutes);
-app.use('/', generateImageARoutes);
+app.use('/generateimage', generateImageRoutes);
+app.use('/generateimageA', generateImageARoutes);
+
+app.get('/', (req, res) => {
+  res.send('Home Page');
+});
 
 app.listen(port, () => {
     console.log(`Servidor está rodando em http://localhost:${port}`);
     initializeBot();
 });
+
+module.exports = app;

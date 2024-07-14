@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require('fs').promises;
 const { addTextToImage } = require('../utils/gerarStory');
 
-router.get('/generateImage', async (req, res) => {
+router.get('/', async (req, res) => {
     const { book, chapter, verse, checkboxId } = req.query;
     const inputImagePath = `./public/image/${checkboxId}.png`;
     const outputImagePath = `./public/Story/${checkboxId}.png`;
