@@ -25,15 +25,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+bot.setWebHook(`${url}/bot/${token}`);
 app.use("/generateimage", generateImageRoutes);
 app.use("/generateimageA", generateImageARoutes);
 
-app.post(`/bot/${token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
-
-bot.setWebHook(`${url}/bot/${token}`);
+app.get("/", (req, res) => {res.send("Conect!");});
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -113,6 +109,7 @@ bot.on("message", (msg) => {
 });
 
 app.listen(port, () => {
+  //bot.setWebHook(`${url}/bot/${token}`);
   console.log(`Servidor está rodando em http://localhost:${port}`);
 })
 
