@@ -41,8 +41,26 @@ app.post(`/bot${token}`, (req, res) => {
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "Olá! Como posso ajudar?");
+
+  const currentHour = new Date().getHours();
+  let greeting;
+  if (currentHour < 12) {
+    greeting = "Bom dia";
+  } else if (currentHour < 18) {
+    greeting = "Boa tarde";
+  } else {
+    greeting = "Boa noite";
+  }
+
+  const welcomeMessage = `${greeting}! Paz do Senhor! Em que posso ajudar você? Aqui estão algumas opções:
+- Digite /jogo para jogar um jogo.
+- Digite /oracao para enviar um pedido de oração.
+- Digite /instagram para obter links para nossos perfis no Instagram.
+- Digite /imagem para gerar uma imagem.`;
+
+  bot.sendMessage(chatId, welcomeMessage);
 });
+
 bot.onText(/\/jogo/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Vamos jogar!!!");
