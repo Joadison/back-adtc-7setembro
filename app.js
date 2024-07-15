@@ -25,9 +25,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-bot.setWebHook(`${url}/bot/${token}`);
 app.use("/generateimage", generateImageRoutes);
 app.use("/generateimageA", generateImageARoutes);
+app.post(`/bot/${token}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
 
 app.get("/", (req, res) => {res.send("Conect!");});
 
@@ -109,8 +112,14 @@ bot.on("message", (msg) => {
 });
 
 app.listen(port, () => {
-  //bot.setWebHook(`${url}/bot/${token}`);
   console.log(`Servidor está rodando em http://localhost:${port}`);
+  bot.setWebHook(`${url}/bot/${token}`)
+  .then(() => {
+    console.log(`Webhook configurado! Bot está ativo em ${url}`);
+  })
+  .catch((error) => {
+    console.error('Erro ao configurar o webhook:', error);
+  });
 })
 
 module.exports = app;
