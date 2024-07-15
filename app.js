@@ -103,12 +103,12 @@ bot.on("message", (msg) => {
   }
   if (messageText === 'paz do senhor!') {
     bot.sendMessage(chatId, 'A PAZ DO SENHOR! Que Deus seja conosco!');
-  } else if (messageText === 'irmão, como você está?') {
+  } 
+  if (messageText === 'irmão, como você está?') {
     bot.sendMessage(chatId, 'Estou bem, graças a Deus. E você, como está?');
-  } else if (messageText === 'Deus abençoe você!') {
-    bot.sendMessage(chatId, 'Deus abençoe você também, irmão!');
-  } else {
-    bot.sendMessage(chatId, 'Desculpe, não entendi. Como posso ajudar?');
+  } 
+  if (messageText === 'Deus abençoe você!') {
+    bot.sendMessage(chatId, 'Deus abençoe você também, e sua familia!');
   }
 });
 
