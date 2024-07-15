@@ -5,9 +5,10 @@ const { addTextToImageA } = require('../utils/agerarStory');
 
 router.get('/', async(req, res) => {
     const inputImagePath = `https://utfs.io/f/5e6e6114-76e5-4f6f-8894-e9a4fc4215f5-1g.png`;
-    const outputImagePath = `./public/Story/A.png`;
+    const outputImagePath = path.join(__dirname, '../temp/A.png');
     
     try {
+        await fs.mkdir(path.dirname(outputImagePath), { recursive: true });
         const imagePath = await addTextToImageA(inputImagePath, outputImagePath);
         const imageBuffer = await fs.readFile(outputImagePath);
         res.writeHead(200, {
@@ -18,6 +19,13 @@ router.get('/', async(req, res) => {
     } catch (error) {
         console.error('Erro ao gerar imagem:', error);
         res.status(500).json({ error: 'Erro ao gerar imagem' });
+    }
+    finally {
+        try {
+            await fs.unlink(outputImagePath);
+        } catch (cleanupError) {
+            console.error('Erro ao limpar imagem temporária:', cleanupError);
+        }
     }
 });
 
