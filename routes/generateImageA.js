@@ -11,8 +11,8 @@ router.get('/', async(req, res) => {
     const outputImagePath = path.join(tempDir, '1.png');
     
     try {
-        await addTextToImageA(inputImagePath, outputImagePath);
-        const imageBuffer = await fs.readFile(outputImagePath);
+        const imagePath = await addTextToImageA(inputImagePath, outputImagePath);
+        const imageBuffer = await fs.readFile(imagePath);
         res.writeHead(200, {
             'Content-Type': 'image/png',
             'Content-Length': imageBuffer.length
