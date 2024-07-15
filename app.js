@@ -35,7 +35,7 @@ app.post(`/bot/${token}`, (req, res) => {
 
 bot.setWebHook(`${url}/bot/${token}`);
 
-bot.on(['/start'], (msg) => {
+bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const currentHour = new Date().getHours();
   let greeting;
@@ -55,13 +55,13 @@ bot.on(['/start'], (msg) => {
   bot.sendMessage(chatId, welcomeMessage);
 });
 
-bot.on(['/jogo'], (msg) => {
+bot.onText(/\/jogo/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Vamos jogar!!!");
   bot.sendMessage(chatId, "https://joadison.github.io/QuizBiblico/");
 });
 
-bot.on(['/oracao'], (msg) => {
+bot.onText(/\/oracao/, (msg) => {
   const chatId = msg.chat.id;
   console.log(chatId);
   bot.sendMessage(chatId, "Pode digitar, que já estaremos orando por você!");
@@ -75,7 +75,7 @@ bot.on(['/oracao'], (msg) => {
   });
 });
 
-bot.on(['/instagram'], (msg) => {
+bot.onText(/\/instagram/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Meu instagram é");
   bot.sendMessage(chatId, "https://www.instagram.com/adtc.7setembro1");
@@ -83,7 +83,7 @@ bot.on(['/instagram'], (msg) => {
   bot.sendMessage(chatId, "https://www.instagram.com/juventudetc7s1");
 });
 
-bot.on(['/imagem'], async (msg) => {
+bot.onText(/\/imagem/, async (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Gerando imagem...");
   try {
@@ -111,8 +111,6 @@ bot.on("message", (msg) => {
     bot.sendMessage(chatId, 'Desculpe, não entendi. Como posso ajudar?');
   }
 });
-
-console.log("Bot iniciado.");
 
 app.listen(port, () => {
   console.log(`Servidor está rodando em http://localhost:${port}`);
