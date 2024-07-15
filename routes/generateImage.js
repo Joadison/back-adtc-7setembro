@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     try {
         await fs.mkdir(path.dirname(outputImagePath), { recursive: true });
         const imagePath = await addTextToImage(book, chapter, verse, inputImagePath, outputImagePath);
+        console.log(imagePath)
         const imageBuffer = await fs.readFile(imagePath);
         res.writeHead(200, {
             'Content-Type': 'image/png',
