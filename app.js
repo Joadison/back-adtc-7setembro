@@ -9,15 +9,14 @@ const generateImageRoutes = require("./routes/generateImage");
 const generateImageARoutes = require("./routes/generateImageA");
 
 const token = process.env.TELEGRAM_TOKEN;
-const imageUrl = "https://back-adtc-7setembro.vercel.app/generateImageA";
-const url = "https://back-adtc-7setembro.vercel.app/";
+const url = "https://back-adtc-7setembro.vercel.app";
 //const url = "http://localhost:3444"
 
 if (!token) {
   throw new Error("TELEGRAM_TOKEN não está definido!");
 }
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token);
 
 const app = express();
 const port = 3444
@@ -38,6 +37,8 @@ app.post(`/bot${token}`, (req, res) => {
   bot.processUpdate(req.body);
   res.sendStatus(200);
 });
+
+bot.setWebHook(`${url}/bot${token}`);
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -90,7 +91,7 @@ bot.onText(/\/imagem/, async (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Gerando imagem...");
   try {
-    const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+    const response = await axios.get(`${url}/generateimageA`, { responseType: "arraybuffer" });
     bot.sendPhoto(chatId, Buffer.from(response.data, "binary"));
   } catch (error) {
     bot.sendMessage(chatId, "Desculpe, ocorreu um erro ao processar a imagem.");
