@@ -9,8 +9,8 @@ const generateImageRoutes = require("./routes/generateImage");
 const generateImageARoutes = require("./routes/generateImageA");
 
 const token = process.env.TELEGRAM_TOKEN;
-const url = "https://back-adtc-7setembro.vercel.app";
-//const url = "http://localhost:3444"
+//const url = "https://back-adtc-7setembro.vercel.app";
+const url = "http://localhost:3444"
 
 if (!token) {
   throw new Error("TELEGRAM_TOKEN não está definido!");
@@ -42,7 +42,6 @@ bot.setWebHook(`${url}/bot${token}`);
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-
   const currentHour = new Date().getHours();
   let greeting;
   if (currentHour < 12) {
@@ -52,7 +51,6 @@ bot.onText(/\/start/, (msg) => {
   } else {
     greeting = "Boa noite";
   }
-
   const welcomeMessage = `${greeting}! Paz do Senhor! Em que posso ajudar você? Aqui estão algumas opções:
 - Digite /jogo para jogar um jogo.
 - Digite /oracao para enviar um pedido de oração.
@@ -67,6 +65,7 @@ bot.onText(/\/jogo/, (msg) => {
   bot.sendMessage(chatId, "Vamos jogar!!!");
   bot.sendMessage(chatId, "https://joadison.github.io/QuizBiblico/");
 });
+
 bot.onText(/\/oracao/, (msg) => {
   const chatId = msg.chat.id;
   console.log(chatId);
@@ -80,6 +79,7 @@ bot.onText(/\/oracao/, (msg) => {
     bot.sendMessage(outroChatId, mensagem);
   });
 });
+
 bot.onText(/\/instagram/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Meu instagram é");
@@ -87,6 +87,7 @@ bot.onText(/\/instagram/, (msg) => {
   bot.sendMessage(chatId, "E este é da nossa Juventude! ");
   bot.sendMessage(chatId, "https://www.instagram.com/juventudetc7s1");
 });
+
 bot.onText(/\/imagem/, async (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Gerando imagem...");
@@ -97,9 +98,25 @@ bot.onText(/\/imagem/, async (msg) => {
     bot.sendMessage(chatId, "Desculpe, ocorreu um erro ao processar a imagem.");
   }
 });
+
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
+  const messageText = msg.text.toString().toLowerCase();
+
+  if (messageText === 'oi') {
+    bot.sendMessage(chatId, 'Olá, tudo bem?');
+  }
+  if (messageText === 'paz do senhor!') {
+    bot.sendMessage(chatId, 'A PAZ DO SENHOR! Que Deus seja conosco!');
+  } else if (messageText === 'irmão, como você está?') {
+    bot.sendMessage(chatId, 'Estou bem, graças a Deus. E você, como está?');
+  } else if (messageText === 'Deus abençoe você!') {
+    bot.sendMessage(chatId, 'Deus abençoe você também, irmão!');
+  } else {
+    bot.sendMessage(chatId, 'Desculpe, não entendi. Como posso ajudar?');
+  }
 });
+
 console.log("Bot iniciado...");
 
 app.listen(port, () => {
