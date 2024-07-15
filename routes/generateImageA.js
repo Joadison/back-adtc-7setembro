@@ -6,7 +6,8 @@ const { addTextToImageA } = require('../utils/agerarStory');
 
 router.get('/', async(req, res) => {
     const inputImagePath = `https://utfs.io/f/5e6e6114-76e5-4f6f-8894-e9a4fc4215f5-1g.png`;
-    const outputImagePath = path.join(__dirname, '../temp/A.png');
+    const tempDir = os.tmpdir();
+    const outputImagePath = path.join(tempDir, 'A.png');
     
     try {
         await fs.mkdir(path.dirname(outputImagePath), { recursive: true });
