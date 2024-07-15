@@ -223,12 +223,11 @@ async function addTextToImageA(inputImagePath, outputImagePath) {
         } else {
             throw new Error('Falha ao obter passagem bíblica');
         }
-
-        const buffer = canvas.toBuffer('image/png');
-        fs.writeFileSync(outputImagePath, buffer);
         
-        const imageUrl = outputImagePath.replace(/^\.\/public\//, 'https://adtc-7-setembro.vercel.app/');
-        return imageUrl;
+        const buffer = canvas.toBuffer('image/png');
+        await fs.writeFile(outputImagePath, buffer);
+
+        return outputImagePath;
     } catch (error) {
         console.error('Erro ao adicionar texto à imagem:', error);
     }
