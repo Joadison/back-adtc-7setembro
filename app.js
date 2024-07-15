@@ -9,8 +9,8 @@ const generateImageRoutes = require("./routes/generateImage");
 const generateImageARoutes = require("./routes/generateImageA");
 
 const token = process.env.TELEGRAM_TOKEN;
-//const url = "https://back-adtc-7setembro.vercel.app";
-const url = "http://localhost:3444"
+const url = "https://back-adtc-7setembro.vercel.app";
+//const url = "http://localhost:3444"
 
 if (!token) {
   throw new Error("TELEGRAM_TOKEN não está definido!");
