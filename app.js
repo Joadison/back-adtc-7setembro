@@ -11,13 +11,13 @@ const generateImageARoutes = require("./routes/generateImageA");
 const token = process.env.TELEGRAM_TOKEN;
 const imageUrl = "https://back-adtc-7setembro.vercel.app/generateImageA";
 const url = "https://back-adtc-7setembro.vercel.app/";
+//const url = "http://localhost:3444"
 
 if (!token) {
   throw new Error("TELEGRAM_TOKEN não está definido!");
 }
 
-const bot = new TelegramBot(token);
-bot.setWebHook(`${url}/bot${token}`);
+const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 const port = 3444
