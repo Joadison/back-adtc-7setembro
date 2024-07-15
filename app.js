@@ -1,29 +1,90 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+require('dotenv').config();
+const TelegramBot = require("node-telegram-bot-api");
+const axios = require("axios");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
-const generateImageRoutes = require('./routes/generateImage');
-const generateImageARoutes = require('./routes/generateImageA');
-const { initializeBot } = require('./services/telegramBot');
+const generateImageRoutes = require("./routes/generateImage");
+const generateImageARoutes = require("./routes/generateImageA");
+
+const token = process.env.TELEGRAM_TOKEN;
+const imageUrl = "https://back-adtc-7setembro.onrender.com/generateImageA";
+const url = "https://back-adtc-7setembro.vercel.app/";
+
+if (!token) {
+  throw new Error("TELEGRAM_TOKEN não está definido!");
+}
+
+const bot = new TelegramBot(token);
+bot.setWebHook(`${url}/bot${token}`);
 
 const app = express();
-const port = 3333;
+const port = 3444
 
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/generateimage', generateImageRoutes);
-app.use('/generateimageA', generateImageARoutes);
+app.use("/generateimage", generateImageRoutes);
+app.use("/generateimageA", generateImageARoutes);
 
-app.get('/', (req, res) => {
-  res.send('Home Page');
+app.get("/", (req, res) => {
+  res.send("API OK!");
 });
+
+app.post(`/bot${token}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Olá! Como posso ajudar?");
+});
+bot.onText(/\/jogo/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Vamos jogar!!!");
+  bot.sendMessage(chatId, "https://joadison.github.io/QuizBiblico/");
+});
+bot.onText(/\/oracao/, (msg) => {
+  const chatId = msg.chat.id;
+  console.log(chatId);
+  bot.sendMessage(chatId, "Pode digitar, que já estaremos orando por você!");
+
+  bot.once("message", (msg) => {
+    const userChatId = msg.chat.id;
+    const oracaoText = msg.text;
+    const outroChatId = "1088237134";
+    const mensagem = `Alguém está pedindo oração:\n${oracaoText}`;
+    bot.sendMessage(outroChatId, mensagem);
+  });
+});
+bot.onText(/\/instagram/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Meu instagram é");
+  bot.sendMessage(chatId, "https://www.instagram.com/adtc.7setembro1");
+  bot.sendMessage(chatId, "E este é da nossa Juventude! ");
+  bot.sendMessage(chatId, "https://www.instagram.com/juventudetc7s1");
+});
+bot.onText(/\/imagem/, async (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Gerando imagem...");
+  try {
+    const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+    bot.sendPhoto(chatId, Buffer.from(response.data, "binary"));
+  } catch (error) {
+    bot.sendMessage(chatId, "Desculpe, ocorreu um erro ao processar a imagem.");
+  }
+});
+bot.on("message", (msg) => {
+  const chatId = msg.chat.id;
+});
+console.log("Bot iniciado...");
 
 app.listen(port, () => {
-    console.log(`Servidor está rodando em http://localhost:${port}`);
-    initializeBot();
-});
+  console.log(`Servidor está rodando em http://localhost:${port}`);
+})
 
 module.exports = app;
